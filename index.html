@@ -87,6 +87,35 @@
       font-size: 20px;
     }
     
+    .search-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .search-box input {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #002868;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    
+    .search-box button {
+      padding: 10px 15px;
+      background: #006400;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    
+    .search-box button:hover {
+      background: #004d00;
+    }
+    
     .candidate-card {
       display: flex;
       gap: 15px;
@@ -104,12 +133,21 @@
       overflow: hidden;
       flex-shrink: 0;
       background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .passport img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    
+    .passport-placeholder {
+      text-align: center;
+      color: #999;
+      font-size: 12px;
     }
     
     .candidate-info {
@@ -154,6 +192,10 @@
       letter-spacing: 1px;
     }
     
+    .status.passed {
+      color: #28a745;
+    }
+    
     .warning {
       background: #fff3cd;
       padding: 12px 15px;
@@ -165,6 +207,17 @@
       line-height: 1.5;
     }
     
+    .success-message {
+      background: #d4edda;
+      padding: 12px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-top: 15px;
+      border-left: 4px solid #28a745;
+      color: #155724;
+      line-height: 1.5;
+    }
+    
     .footer {
       text-align: center;
       font-size: 11px;
@@ -172,6 +225,28 @@
       padding: 15px;
       border-top: 1px solid #eee;
       margin-top: 15px;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .error-message {
+      background: #f8d7da;
+      padding: 12px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-bottom: 15px;
+      border-left: 4px solid #dc3545;
+      color: #721c24;
+    }
+    
+    .image-upload {
+      margin: 10px 0;
+    }
+    
+    .image-upload input {
+      font-size: 11px;
     }
     
     /* Scrollbar styling */
@@ -237,29 +312,51 @@
       <div class="content">
         <h2>2026 UTME RESULT</h2>
 
-        <div class="candidate-card">
-          <div class="passport">
-            <img src="https://via.placeholder.com/130x165?text=Candidate+Photo" alt="Sobajo Anuoluwapo">
-          </div>
-          <div class="candidate-info">
-            <strong>Sobajo Anuoluwapo</strong>
-            <div class="registration-id">202660786359HA</div>
-            <div>
-              <strong>Gender:</strong> Male<br>
-              <strong>State:</strong> Ogun<br>
-              <strong>DOB:</strong> 01/10/2008<br>
-              <strong>Status:</strong> <span style="color:#c62828; font-weight: 700;">WITHHELD</span>
+        <!-- Search Section -->
+        <div class="search-box">
+          <input type="text" id="registrationInput" placeholder="Enter Registration ID">
+          <button onclick="searchCandidate()">Search</button>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="hidden">
+          <div class="candidate-card">
+            <div class="passport">
+              <img id="candidatePhoto" src="" alt="Candidate Photo">
             </div>
+            <div class="candidate-info">
+              <strong id="candidateName"></strong>
+              <div class="registration-id" id="registrationId"></div>
+              <div>
+                <strong>Gender:</strong> <span id="gender"></span><br>
+                <strong>State:</strong> <span id="state"></span><br>
+                <strong>DOB:</strong> <span id="dob"></span><br>
+                <strong>Status:</strong> <span id="candidateStatus" style="font-weight: 700;"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-box">
+            <h3>OFFICIAL RESULT STATUS</h3>
+            <div id="statusDisplay" class="status"></div>
+            
+            <div id="scoreDisplay" class="hidden" style="font-size: 16px; margin: 10px 0; color: #006400;">
+              <strong>Total Score: <span id="totalScore"></span>/400</strong>
+            </div>
+            
+            <div id="warningMessage" class="warning hidden"></div>
+            <div id="successMessage" class="success-message hidden"></div>
           </div>
         </div>
 
-        <div class="result-box">
-          <h3>OFFICIAL RESULT STATUS</h3>
-          <div class="status">RESULT WITHHELD</div>
-          
-          <div class="warning">
-            ⚠️ Your result has been withheld pending verification. Please contact JAMB for more information.
-          </div>
+        <!-- Sample Data Notice -->
+        <div id="sampleNotice" class="warning">
+          📝 Try searching with sample IDs: <br>
+          <strong>202660786359HA</strong> (Withheld)<br>
+          <strong>202660123456AB</strong> (Passed)
         </div>
 
         <div class="footer">
@@ -270,6 +367,139 @@
 
     </div>
   </div>
+
+  <script>
+    // Sample Database
+    const candidateDatabase = {
+      "202660786359HA": {
+        name: "Sobajo Anuoluwapo",
+        gender: "Male",
+        state: "Ogun",
+        dob: "01/10/2008",
+        status: "WITHHELD",
+        statusColor: "#c62828",
+        photo: "https://via.placeholder.com/130x165?text=Anuoluwapo",
+        message: "Your result has been withheld pending verification. Please contact JAMB for more information."
+      },
+      "202660123456AB": {
+        name: "Chisom Okafor",
+        gender: "Female",
+        state: "Lagos",
+        dob: "15/05/2007",
+        status: "PASSED",
+        score: 289,
+        statusColor: "#28a745",
+        photo: "https://via.placeholder.com/130x165?text=Chisom",
+        message: "Congratulations! Your result has been processed successfully."
+      },
+      "202660789012CD": {
+        name: "Ahmed Hassan",
+        gender: "Male",
+        state: "Kano",
+        dob: "22/03/2008",
+        status: "PASSED",
+        score: 312,
+        statusColor: "#28a745",
+        photo: "https://via.placeholder.com/130x165?text=Ahmed",
+        message: "Congratulations! Your result has been processed successfully."
+      },
+      "202660345678EF": {
+        name: "Adeyemi Adesanya",
+        gender: "Female",
+        state: "Osun",
+        dob: "08/07/2007",
+        status: "WITHHELD",
+        statusColor: "#c62828",
+        photo: "https://via.placeholder.com/130x165?text=Adeyemi",
+        message: "Your result has been withheld for review. Please check back later."
+      }
+    };
+
+    function searchCandidate() {
+      const registrationId = document.getElementById('registrationInput').value.trim().toUpperCase();
+      const resultSection = document.getElementById('resultSection');
+      const errorMessage = document.getElementById('errorMessage');
+      const sampleNotice = document.getElementById('sampleNotice');
+
+      // Clear previous messages
+      errorMessage.classList.add('hidden');
+      resultSection.classList.add('hidden');
+
+      if (!registrationId) {
+        showError("Please enter a registration ID");
+        return;
+      }
+
+      const candidate = candidateDatabase[registrationId];
+
+      if (!candidate) {
+        showError("Registration ID not found. Please check and try again.");
+        return;
+      }
+
+      // Hide sample notice
+      sampleNotice.classList.add('hidden');
+
+      // Display candidate information
+      document.getElementById('candidateName').textContent = candidate.name;
+      document.getElementById('registrationId').textContent = registrationId;
+      document.getElementById('gender').textContent = candidate.gender;
+      document.getElementById('state').textContent = candidate.state;
+      document.getElementById('dob').textContent = candidate.dob;
+      
+      // Set status with color
+      const statusSpan = document.getElementById('candidateStatus');
+      statusSpan.textContent = candidate.status;
+      statusSpan.style.color = candidate.statusColor;
+
+      // Set status display
+      const statusDisplay = document.getElementById('statusDisplay');
+      statusDisplay.textContent = candidate.status;
+      statusDisplay.style.color = candidate.statusColor;
+
+      // Display score if passed
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      if (candidate.score) {
+        document.getElementById('totalScore').textContent = candidate.score;
+        scoreDisplay.classList.remove('hidden');
+      } else {
+        scoreDisplay.classList.add('hidden');
+      }
+
+      // Set photo
+      document.getElementById('candidatePhoto').src = candidate.photo;
+
+      // Display appropriate message
+      const warningMessage = document.getElementById('warningMessage');
+      const successMessage = document.getElementById('successMessage');
+
+      if (candidate.status === "WITHHELD") {
+        warningMessage.textContent = "⚠️ " + candidate.message;
+        warningMessage.classList.remove('hidden');
+        successMessage.classList.add('hidden');
+      } else {
+        successMessage.textContent = "✅ " + candidate.message;
+        successMessage.classList.remove('hidden');
+        warningMessage.classList.add('hidden');
+      }
+
+      // Show result
+      resultSection.classList.remove('hidden');
+    }
+
+    function showError(message) {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = "❌ " + message;
+      errorMessage.classList.remove('hidden');
+    }
+
+    // Allow Enter key to search
+    document.getElementById('registrationInput').addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        searchCandidate();
+      }
+    });
+  </script>
 
 </body>
 </html>
