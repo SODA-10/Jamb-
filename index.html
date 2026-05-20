@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JAMB e-Facility | 2026 UTME Result</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', system-ui, sans-serif;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .phone-frame {
+      width: 100%;
+      max-width: 380px;
+      height: 720px;
+      background: #000;
+      border-radius: 50px;
+      padding: 15px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.9);
+      overflow: hidden;
+    }
+    
+    .screen {
+      width: 100%;
+      height: 100%;
+      background: white;
+      border-radius: 38px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background: linear-gradient(90deg, #002868, #006400);
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    
+    .logo img {
+      height: 50px;
+      width: auto;
+    }
+    
+    .header-text {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    
+    .header-subtitle {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+    
+    .content {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    
+    .content h2 {
+      text-align: center;
+      color: #006400;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    
+    .candidate-card {
+      display: flex;
+      gap: 15px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .passport {
+      width: 130px;
+      height: 165px;
+      border: 4px solid #002868;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #e0e0e0;
+    }
+    
+    .passport img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .candidate-info {
+      flex: 1;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    
+    .candidate-info strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .registration-id {
+      color: #b71c1c;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    .result-box {
+      text-align: center;
+      padding: 25px 15px;
+      border: 3px solid #ffc107;
+      border-radius: 12px;
+      background: #fffbf0;
+      margin-top: 15px;
+    }
+    
+    .result-box h3 {
+      color: #006400;
+      font-size: 14px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    
+    .status {
+      font-size: 28px;
+      font-weight: 700;
+      color: #c62828;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .warning {
+      background: #fff3cd;
+      padding: 12px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-top: 15px;
+      border-left: 4px solid #ffc107;
+      color: #856404;
+      line-height: 1.5;
+    }
+    
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: #666;
+      padding: 15px;
+      border-top: 1px solid #eee;
+      margin-top: 15px;
+    }
+    
+    /* Scrollbar styling */
+    .content::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .content::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+    
+    .content::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    
+    @media (max-width: 500px) {
+      .phone-frame {
+        border-radius: 30px;
+        padding: 10px;
+      }
+      
+      .screen {
+        border-radius: 25px;
+      }
+      
+      .candidate-card {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .passport {
+        width: 140px;
+        height: 180px;
+      }
+      
+      .status {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <div class="screen">
+
+      <div class="header">
+        <div class="logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/JAMB_Logo.svg/512px-JAMB_Logo.svg.png" alt="JAMB Logo">
+        </div>
+        <div class="header-text">
+          <div class="header-title">JAMB e-Facility</div>
+          <div class="header-subtitle">UTME 2026</div>
+        </div>
+      </div>
+
+      <div class="content">
+        <h2>2026 UTME RESULT</h2>
+
+        <div class="candidate-card">
+          <div class="passport">
+            <img src="https://via.placeholder.com/130x165?text=Candidate+Photo" alt="Sobajo Anuoluwapo">
+          </div>
+          <div class="candidate-info">
+            <strong>Sobajo Anuoluwapo</strong>
+            <div class="registration-id">202660786359HA</div>
+            <div>
+              <strong>Gender:</strong> Male<br>
+              <strong>State:</strong> Ogun<br>
+              <strong>DOB:</strong> 01/10/2008<br>
+              <strong>Status:</strong> <span style="color:#c62828; font-weight: 700;">WITHHELD</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-box">
+          <h3>OFFICIAL RESULT STATUS</h3>
+          <div class="status">RESULT WITHHELD</div>
+          
+          <div class="warning">
+            ⚠️ Your result has been withheld pending verification. Please contact JAMB for more information.
+          </div>
+        </div>
+
+        <div class="footer">
+          <p>© 2026 JAMB e-Facility | All Rights Reserved</p>
+          <p>For assistance, visit www.jamb.org.ng</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
